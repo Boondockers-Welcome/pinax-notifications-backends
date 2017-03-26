@@ -3,7 +3,7 @@ from django.template import TemplateDoesNotExist
 from django.utils.translation import ugettext
 from django.template.loader import select_template
 
-from core.utils import get_class_from_path
+from pinax.notifications_backends.utils import get_class_from_path
 
 from pinax.notifications.backends.email import EmailBackend
 
@@ -60,7 +60,7 @@ class HtmlEmailBackend(EmailBackend):
                     "pinax/notifications/{0}/{1}".format(
                         notice_type.label, "html.email"),
                     "pinax/notifications/{0}".format(
-                        notice_type.label, "html.email")
+                        "html.email")
                 ]
             )
         except TemplateDoesNotExist:
