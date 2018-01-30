@@ -109,7 +109,7 @@ def send_now(users, label, extra_context=None, sender=None, scoping=None):
                     backend.deliver(user, sender, notice_type, extra_context)
                     sent = True
 
-    for backend, users in users_to_send.iteritems():
+    for backend, users in users_to_send.items():
         backend.deliver_bulk(users, sender, notice_type, extra_context)
 
     if users_to_send:

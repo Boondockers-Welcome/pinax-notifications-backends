@@ -3,7 +3,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.template import TemplateDoesNotExist
 from django.utils.translation import ugettext
 from .base import BaseBackend
-from core.utils import get_class_from_path
+from pinax.notifications_backends.utils import get_class_from_path
 
 from sendsms import api
 
