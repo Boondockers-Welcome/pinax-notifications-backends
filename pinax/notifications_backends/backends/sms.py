@@ -70,8 +70,8 @@ class SmsBackend(BaseBackend):
                     else:
                         userprofile = getattr(recipient, 'userprofile')
                         mobile_phone = getattr(userprofile, 'mobile_phone')
-
-                    mobile_phones.append(mobile_phone)
+                    if mobile_phone:
+                        mobile_phones.append(mobile_phone)
 
             api.send_sms(body=body, from_phone=from_phone, to=mobile_phones)
 
