@@ -46,7 +46,6 @@ class PushNotificationBackend(BaseBackend):
         Sending GCM and APNs Push notifications using:
         https://github.com/jleclanche/django-push-notifications
         """
-        print("Sending Bulk Push Notifications... ")
         context = self.default_context()
         context.update({
             "notice": ugettext(notice_type.display),

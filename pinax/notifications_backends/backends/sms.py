@@ -41,7 +41,6 @@ class SmsBackend(BaseBackend):
         Sending SMS using:
         https://github.com/stefanfoulis/django-sendsms/
         """
-        print("Sending Bulk Sms... ")
         context = self.default_context()
         context.update({
             "sender": sender,
