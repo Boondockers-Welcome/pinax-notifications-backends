@@ -86,6 +86,9 @@ def send_now(users, label, extra_context=None, sender=None, scoping=None):
     users_to_send = defaultdict(list)
 
     for user in users:
+        # don't send notifications to inactive users!
+        if not user.is_active:
+            continue
         # get user language for user from language store defined in
         # NOTIFICATION_LANGUAGE_MODULE setting
         try:
