@@ -22,12 +22,14 @@ NOTICE_MEDIA, NOTICE_MEDIA_DEFAULTS = load_media_defaults()
 class Notice(models.Model):
     recipient = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name="received_notices",
-        verbose_name=_("recipient"))
+        verbose_name=_("recipient"),
+        on_delete=models.CASCADE)
     sender = models.ForeignKey(
         settings.AUTH_USER_MODEL, null=True, related_name="sent_notices",
-        verbose_name=_("sender"))
+        verbose_name=_("sender"),
+        on_delete=models.CASCADE)
     message = models.TextField(_("message"))
-    notice_type = models.ForeignKey(NoticeType, verbose_name=_("notice type"))
+    notice_type = models.ForeignKey(NoticeType, verbose_name=_("notice type"), on_delete=models.CASCADE)
     medium = models.CharField(_("medium"), max_length=100, choices=NOTICE_MEDIA)
     added = models.DateTimeField(_("added"), db_index=True, default=timezone.now)
     unseen = models.BooleanField(_("unseen"), db_index=True, default=True)
