@@ -3,7 +3,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.template import TemplateDoesNotExist
 from django.utils.translation import ugettext
 from .base import BaseBackend
-from core.utils import get_class_from_path
+from pinax.notifications_backends.utils import get_class_from_path
 
 from sendsms import api
 
@@ -41,7 +41,6 @@ class SmsBackend(BaseBackend):
         Sending SMS using:
         https://github.com/stefanfoulis/django-sendsms/
         """
-        print("Sending Bulk Sms... ")
         context = self.default_context()
         context.update({
             "sender": sender,
@@ -70,8 +69,8 @@ class SmsBackend(BaseBackend):
                     else:
                         userprofile = getattr(recipient, 'userprofile')
                         mobile_phone = getattr(userprofile, 'mobile_phone')
-
-                    mobile_phones.append(mobile_phone)
+                    if mobile_phone:
+                        mobile_phones.append(mobile_phone)
 
             api.send_sms(body=body, from_phone=from_phone, to=mobile_phones)
 
