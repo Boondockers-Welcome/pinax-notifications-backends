@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import get_language, activate
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from .managers import NoticeManager
 
