@@ -30,7 +30,7 @@ class Notice(models.Model):
         on_delete=models.CASCADE)
     message = models.TextField(_("message"))
     notice_type = models.ForeignKey(NoticeType, verbose_name=_("notice type"), on_delete=models.CASCADE)
-    medium = models.CharField(_("medium"), max_length=100, choices=NOTICE_MEDIA)
+    medium = models.CharField(_("medium"), max_length=100)
     added = models.DateTimeField(_("added"), db_index=True, default=timezone.now)
     unseen = models.BooleanField(_("unseen"), db_index=True, default=True)
     archived = models.BooleanField(_("archived"), default=False)

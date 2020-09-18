@@ -9,5 +9,6 @@ class NoticeAdmin(admin.ModelAdmin):
         "unseen", "archived"]
     list_filter = ["medium", "notice_type", "added"]
     raw_id_fields = ["recipient", "sender"]
+    readonly_fields = ["medium", ]
 
 admin.site.register(Notice, NoticeAdmin)
