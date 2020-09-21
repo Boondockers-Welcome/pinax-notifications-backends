@@ -35,6 +35,7 @@ class Notice(models.Model):
     unseen = models.BooleanField(_("unseen"), db_index=True, default=True)
     archived = models.BooleanField(_("archived"), default=False)
     on_site = models.BooleanField(_("on site"), default=False)
+    exception = models.BooleanField(_("exception"), default=False)
 
     objects = NoticeManager()
 

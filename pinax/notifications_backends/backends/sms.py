@@ -1,11 +1,17 @@
+import sys
+import traceback
+import logging
+
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.template import TemplateDoesNotExist
 from django.utils.translation import ugettext
 from .base import BaseBackend
 from pinax.notifications_backends.utils import get_class_from_path
-
+from django.core.mail import mail_admins
 from sendsms import api
+
+logger = logging.getLogger(__name__)
 
 
 try:
@@ -72,7 +78,25 @@ class SmsBackend(BaseBackend):
                     if mobile_phone:
                         mobile_phones.append(mobile_phone)
 
-            api.send_sms(body=body, from_phone=from_phone, to=mobile_phones)
+            # no mobile phones configured to receive SMS - just bail
+            if len(mobile_phones) == 0:
+                return
+
+            try:
+                api.send_sms(body=body, from_phone=from_phone, to=mobile_phones)
+                exception = False
+            except Exception:
+                exception = True
+                _, e, _ = sys.exc_info()
+                subject = "Error sending sms notice {} to {}".format(
+                    notice_type.label,
+                    recipient.email,
+                )
+                message = "\n".join(
+                    traceback.format_exception(*sys.exc_info())  # pylint: disable-msg=W0142
+                )
+                mail_admins(subject, message, fail_silently=True)
+                logger.critical("an exception occurred: {0}".format(e))
 
             if use_notice_model:
                 Notice = get_class_from_path(
@@ -83,5 +107,5 @@ class SmsBackend(BaseBackend):
                 for recipient in recipients:
                     Notice.objects.create(
                         recipient=recipient, message=body, notice_type=notice_type,
-                        sender=sender, medium='sms'
+                        sender=sender, medium='sms', exception=exception
                     )
