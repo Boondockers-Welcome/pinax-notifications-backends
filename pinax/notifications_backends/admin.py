@@ -10,5 +10,10 @@ class NoticeAdmin(admin.ModelAdmin):
     list_filter = ["medium", "notice_type", "added"]
     raw_id_fields = ["recipient", "sender"]
     readonly_fields = ["medium", ]
+    search_fields = (
+        "recipient__username",
+        "recipient__email",
+    )
+
 
 admin.site.register(Notice, NoticeAdmin)
